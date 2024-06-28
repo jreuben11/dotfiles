@@ -189,6 +189,7 @@ function find_bios_info() {
 
 # ALIASes
 alias weather="curl wttr\.in"
+alias bat="batcat"
 
 # HSTR configuration - add this to ~/.zshrc
 alias hh=hstr                    # hh to be alias for hstr
