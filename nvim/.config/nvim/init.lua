@@ -18,6 +18,7 @@ vim.cmd([[
     set shiftwidth=4	" Number of auto-indent spaces
     set smartindent	" Enable smart-indent
     set smarttab	" Enable smart-tabs
+    set tabstop=4	" Number of spaces per Tab
     set softtabstop=4	" Number of spaces per Tab
 
     "" Advanced
