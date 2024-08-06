@@ -1,3 +1,8 @@
+# set vi mode
+set -o vi # bash
+bindkey -v
+export KEYTIMEOUT=1
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -88,19 +93,28 @@ fi
 plugins=(
   colored-man-pages
   docker
+  eza
+  fzf
   gcloud
   gh
   git
+  history
+  history-substring-search
   kubectl
+  podman
   poetry
   pyenv
   python
   rust
   systemd
+  tldr
   tmux
   ubuntu
   vscode
-  zsh-autosuggestions 
+  zoxide
+  zsh-autosuggestions
+  zsh-interactive-cd
+  zsh-navigation-tools
   zsh-syntax-highlighting
   )
 
@@ -227,7 +241,12 @@ function yy() {
     fi
     rm -f -- "$tmp"
 }
+
+# cargo
 . "$HOME/.cargo/env"
+
+# golang
+export PATH=$PATH:/usr/local/go/bin
 
 # nvims switcher
 alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
@@ -255,3 +274,19 @@ function nvims() {
 
 # Kubectl krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# opam configuration
+[[ ! -r /home/jreuben1/.opam/opam-init/init.zsh ]] || source /home/jreuben1/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# wezterm
+alias wezterm='flatpak run org.wezfurlong.wezterm'
+
+# zellij
+eval "$(zellij setup --generate-auto-start zsh)"
+function zr () { zellij run --name "$*" -- zsh -ic "$*";}
+function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
+function ze () { zellij edit "$*";}
+function zef () { zellij edit --floating "$*";}
+
+# eza
+alias ll='eza --long --grid --classify --icons --no-user --time-style=long-iso'

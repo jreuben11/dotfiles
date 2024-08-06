@@ -52,21 +52,21 @@ return {
 			lspconfig.pyright.setup({ capabilities = capabilities })
 			lspconfig.tsserver.setup({ capabilities = capabilities })
 
-			lspconfig.rust_analyzer.setup({
-				capabilities = capabilities,
-				-- Server-specific settings. See `:help lspconfig-setup`
-				settings = {
-					["rust-analyzer"] = {
-						workspace = {
-							symbol = {
-								search = {
-									kind = "all_symbols",
-								},
-							},
-						},
-					},
-				},
-			})
+			-- lspconfig.rust_analyzer.setup({
+			-- 	capabilities = capabilities,
+			-- 	-- Server-specific settings. See `:help lspconfig-setup`
+			-- 	settings = {
+			-- 		["rust-analyzer"] = {
+			-- 			workspace = {
+			-- 				symbol = {
+			-- 					search = {
+			-- 						kind = "all_symbols",
+			-- 					},
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
