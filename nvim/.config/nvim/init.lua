@@ -35,6 +35,7 @@ vim.cmd([[
     set clipboard=unnamedplus   "global clipboard
 
     let @p="a \<Esc>p"      " paste with space https://vi.stackexchange.com/a/12616/51844
+    set textwidth=120
 
 
     "" let mapleader = ' ' "map leader key to space  unnecessary with LazyVim
