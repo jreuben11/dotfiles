@@ -102,7 +102,7 @@ plugins=(
   history-substring-search
   kubectl
   podman
-  poetry
+#   poetry
   pyenv
   python
   rust
@@ -214,7 +214,7 @@ export NVM_DIR="$HOME/.nvm"
 # export ANDROID_HOME="/usr/lib/android-sdk/"
 export ANDROID_HOME="${HOME}/Android/Sdk/"
 export ANDROID_NDK_ROOT="${HOME}/Android/Sdk/ndk/" 
-export JAVA_HOME="/usr/lib/jvm/java-18-openjdk-amd64"
+export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 export ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}27.0.11902837"
 export PATH="${PATH}:$JAVA_HOME/bin"
 export PATH="${PATH}:${ANDROID_HOME}tools/"
@@ -290,3 +290,19 @@ function zef () { zellij edit --floating "$*";}
 
 # eza
 alias ll='eza --long --grid --classify --icons --no-user --time-style=long-iso'
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# pnpm
+export PNPM_HOME="/home/jreuben1/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+
+export PATH=$PATH:$(go env GOPATH)/bin
