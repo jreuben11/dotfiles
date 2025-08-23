@@ -26,7 +26,7 @@ return {
 					"htmx",
 					"jsonls",
 					"julials",
-					"tsserver",
+					"ts_ls",
 					"jinja_lsp",
 					"jqls",
 					"autotools_ls",
