@@ -306,3 +306,5 @@ eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 
 export PATH=$PATH:$(go env GOPATH)/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
