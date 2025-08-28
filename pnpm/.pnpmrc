@@ -1,0 +1,23 @@
+# pnpm configuration
+# See: https://pnpm.io/npmrc
+
+# Auto install peer dependencies
+auto-install-peers=true
+
+# Use symlinks for node_modules
+shamefully-hoist=false
+
+# Store directory
+store-dir=~/.local/share/pnpm
+
+# Cache directory  
+cache-dir=~/.cache/pnpm
+
+# State directory
+state-dir=~/.local/state/pnpm
+
+# Enable strict peer dependencies
+strict-peer-dependencies=false
+
+# Registry
+registry=https://registry.npmjs.org/

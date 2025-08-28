@@ -225,6 +225,9 @@ export PATH="$PATH:/home/jreuben1/.local/bin"
 
 EDITOR="nvim"
 
+# cargo
+. "$HOME/.cargo/env"
+
 # starship
 eval "$(starship init zsh)"
 # zoxide
@@ -242,9 +245,6 @@ function yy() {
     fi
     rm -f -- "$tmp"
 }
-
-# cargo
-. "$HOME/.cargo/env"
 
 # golang
 export PATH=$PATH:/usr/local/go/bin

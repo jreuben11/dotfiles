@@ -6,6 +6,12 @@ local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices
 
+-- Set zsh as the default shell without login shell behavior
+config.default_prog = { "/usr/bin/zsh" }
+config.set_environment_variables = {
+  SHELL = "/usr/bin/zsh",
+}
+
 -- For example, changing the color scheme:
 config.color_scheme = "Tokyo Night"
 config.window_background_image = wezterm.home_dir .. "cyberpunk-80s-vibe.jpg"

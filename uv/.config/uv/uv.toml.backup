@@ -1,0 +1,31 @@
+# uv configuration
+# See: https://docs.astral.sh/uv/reference/settings/
+
+[global]
+# Index URL for package downloads
+index-url = "https://pypi.org/simple/"
+
+# Extra index URLs
+extra-index-url = []
+
+# Exclude newer package versions
+exclude-newer = false
+
+# Allow insecure connections
+trusted-host = []
+
+# Cache directory (default: ~/.cache/uv)
+# cache-dir = "~/.cache/uv"
+
+# Concurrent downloads
+concurrent-downloads = 50
+
+# Native TLS support
+native-tls = false
+
+[pip]
+# Require virtual environment for pip operations
+require-venv = true
+
+# Pre-release handling
+prerelease = "disallow"
