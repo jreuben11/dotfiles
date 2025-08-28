@@ -228,6 +228,7 @@ EDITOR="nvim"
 # starship
 eval "$(starship init zsh)"
 # zoxide
+export _ZO_DATA_DIR="$HOME/.local/share/zoxide"
 eval "$(zoxide init zsh)"
 # fzf key bindings not available before v 0.48
 # source <(fzf --zsh)

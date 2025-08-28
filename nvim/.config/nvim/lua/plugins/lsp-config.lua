@@ -1,6 +1,7 @@
 return {
 	{
 		"williamboman/mason.nvim",
+		version = ">=2.0",
 		config = function()
 			require("mason").setup()
 		end,
