@@ -1,0 +1,9 @@
+[user]
+	name = jreuben11
+	email = jreuben111@gmail.com
+[init]
+	defaultBranch = main
+[push]
+	default = simple
+[pull]
+	rebase = false

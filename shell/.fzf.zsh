@@ -1,0 +1,1 @@
+# Setup fzf for zsh
