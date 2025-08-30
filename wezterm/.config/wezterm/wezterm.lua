@@ -16,9 +16,9 @@ config.set_environment_variables = {
 config.color_scheme = "Tokyo Night"
 config.window_background_image = wezterm.home_dir .. "cyberpunk-80s-vibe.jpg"
 -- config.window_background_opacity = 0.7
-local mux = wezterm.mux
-wezterm.on("gui-startup", function(cmd)
-	local tab, pane, window = mux.spawn_window(cmd or {})
+-- Maximize window on startup (only once)
+wezterm.on("gui-startup", function()
+	local tab, pane, window = wezterm.mux.spawn_window({})
 	window:gui_window():maximize()
 end)
 -- and finally, return the configuration to wezterm
