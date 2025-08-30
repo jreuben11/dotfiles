@@ -98,9 +98,12 @@ plugins=(
   gcloud
   gh
   git
+  golang
   history
   history-substring-search
   kubectl
+  node
+  npm
   podman
 #   poetry
   pyenv
@@ -110,9 +113,11 @@ plugins=(
   tldr
   tmux
   ubuntu
-  vscode
+  web-search
+  you-should-use
   zoxide
   zsh-autosuggestions
+  zsh-completions
   zsh-interactive-cd
   zsh-navigation-tools
   zsh-syntax-highlighting
@@ -156,20 +161,6 @@ export PATH=/usr/local/cuda-12.3/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH
 export CUDA_SAMPLES=/usr/local/cuda-samples/Samples
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/jreuben1/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/jreuben1/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/jreuben1/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/jreuben1/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 # Deno
 export DENO_INSTALL="/home/jreuben1/.deno"
