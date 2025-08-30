@@ -3,6 +3,17 @@ set -o vi # bash
 bindkey -v
 export KEYTIMEOUT=1
 
+# History optimization
+HISTSIZE=50000
+SAVEHIST=50000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_DUPS          # Don't record duplicates
+setopt HIST_IGNORE_ALL_DUPS      # Delete old duplicate entries
+setopt HIST_REDUCE_BLANKS        # Remove extra blanks
+setopt HIST_VERIFY               # Show command before executing from history
+setopt SHARE_HISTORY             # Share history between sessions
+setopt APPEND_HISTORY            # Append to history file
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -46,7 +57,7 @@ zstyle ':omz:update' frequency 13
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -125,6 +136,30 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Better completion behavior
+setopt AUTO_MENU                 # Show completion menu on tab
+setopt COMPLETE_IN_WORD          # Complete from both ends of word
+setopt ALWAYS_TO_END             # Move cursor to end after completion
+setopt AUTO_PARAM_SLASH          # Add slash after directory completion
+
+# Directory navigation
+setopt AUTO_PUSHD                # Make cd push old dir to dir stack
+setopt PUSHD_IGNORE_DUPS         # Don't push duplicates
+setopt PUSHD_SILENT              # Don't print dir stack after pushd/popd
+alias d='dirs -v'                # Show directory stack
+
+# Correction and globbing
+setopt CORRECT                   # Spelling correction for commands
+setopt EXTENDED_GLOB             # Extended globbing patterns
+
+# Faster key bindings (vi mode enhancements)
+bindkey '^P' history-search-backward
+bindkey '^N' history-search-forward
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -183,6 +218,32 @@ function find_bios_info() {
   do
     echo "$d : "  $(sudo dmidecode -s $d)
   done
+}
+
+# Additional useful functions
+mkcd() { mkdir -p "$@" && cd "$_"; }  # mkdir and cd into it
+backup() { cp "$1"{,.backup}; }       # quick backup
+
+# Extract any archive
+extract() {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1     ;;
+      *.tar.gz)    tar xzf $1     ;;
+      *.bz2)       bunzip2 $1     ;;
+      *.rar)       unrar e $1     ;;
+      *.gz)        gunzip $1      ;;
+      *.tar)       tar xf $1      ;;
+      *.tbz2)      tar xjf $1     ;;
+      *.tgz)       tar xzf $1     ;;
+      *.zip)       unzip $1       ;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1        ;;
+      *)     echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 # ALIASes

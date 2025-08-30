@@ -3,6 +3,12 @@
 	email = jreuben111@gmail.com
 [init]
 	defaultBranch = main
+[core]
+	editor = nvim
+	autocrlf = input
+	safecrlf = warn
+	filemode = true
+	precomposeUnicode = true
 [push]
 	default = simple
 [pull]
@@ -13,3 +19,44 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[diff]
+	tool = nvim
+	colorMoved = default
+	algorithm = histogram
+[merge]
+	tool = nvim
+	conflictstyle = diff3
+	ff = false
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	status = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[rebase]
+	autoStash = true
+	updateRefs = true
+[fetch]
+	prune = true
+[branch]
+	autoSetupRebase = always
+[tag]
+	sort = version:refname
+[rerere]
+	enabled = true
+[help]
+	autocorrect = 20
+[commit]
+	verbose = true
