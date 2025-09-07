@@ -16,6 +16,9 @@ config.set_environment_variables = {
 config.color_scheme = "Tokyo Night"
 config.window_background_image = wezterm.home_dir .. "cyberpunk-80s-vibe.jpg"
 -- config.window_background_opacity = 0.7
+
+-- Fix mouse cursor disappearing with multiplexers like Zellij
+config.hide_mouse_cursor_when_typing = false
 -- Maximize window on startup (only once)
 wezterm.on("gui-startup", function()
 	local tab, pane, window = wezterm.mux.spawn_window({})
