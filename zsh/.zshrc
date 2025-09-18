@@ -361,3 +361,10 @@ eval "$(uvx --generate-shell-completion zsh)"
 export PATH=$PATH:$(go env GOPATH)/bin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/home/jreuben1/.bun/_bun" ] && source "/home/jreuben1/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
