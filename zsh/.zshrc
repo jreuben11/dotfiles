@@ -84,21 +84,6 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-export PATH="$(pyenv root)/shims:$PATH"
-
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-
-
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init --path)"
-fi
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -120,7 +105,6 @@ plugins=(
   npm
   podman
 #   poetry
-  pyenv
   python
   rust
   systemd
@@ -355,8 +339,16 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+# uv shell completions
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
+
+# uv python configuration
+export UV_PYTHON="3.13"
+
+# uv python aliases
+alias python='uv run python'
+alias pip='uv pip'
 
 export PATH=$PATH:$(go env GOPATH)/bin
 
