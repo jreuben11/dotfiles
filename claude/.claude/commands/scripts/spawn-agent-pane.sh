@@ -1,8 +1,14 @@
 #!/bin/bash
 # Spawn Agent Pane - Intelligently position and manage sub-agent execution pane
 
+# Ensure cleanup on exit/interrupt
+trap "exit 0" TERM INT EXIT
+
 TASK_DESC="$1"
 RESULT_FILE="$2"
+
+# Timeout after 5 minutes regardless
+TIMEOUT_SECONDS=300
 
 # Create a visual header
 cat << 'EOF'

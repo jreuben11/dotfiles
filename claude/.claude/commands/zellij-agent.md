@@ -23,18 +23,19 @@ Determine the correct direction for pane placement:
 
 ```bash
 # Detect existing columns and choose direction
-# - If multiple columns exist: position DOWN in rightmost column (stacks vertically)
+# - If multiple columns exist: FOCUS rightmost pane, then position DOWN (stacks vertically)
 # - If single column: position RIGHT (creates new column)
 
-# Method 1: Check layout and decide
-LAYOUT=$(zellij action dump-layout 2>&1)
-COLUMN_COUNT=$(echo "$LAYOUT" | grep -c 'split_direction="vertical"')
+# Count non-focused panes to detect if we already created a second column
+PANE_COUNT=$(ps aux | grep "spawn-agent-pane.sh" | grep -v grep | wc -l)
 
-if [ "$COLUMN_COUNT" -gt 1 ]; then
-    # Multiple columns - go down in rightmost
+if [ "$PANE_COUNT" -gt 0 ]; then
+    # At least one agent pane exists - focus rightmost, then go down
+    # Move focus to the right (to the agent panes column)
+    zellij action focus-next-pane
     DIRECTION="down"
 else
-    # Single column - create new column right
+    # No agent panes yet - create first one to the right
     DIRECTION="right"
 fi
 
