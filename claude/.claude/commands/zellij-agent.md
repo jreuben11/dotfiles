@@ -22,21 +22,30 @@ mkdir -p "$HOME/var"
 Determine the correct direction for pane placement:
 
 ```bash
-# Detect existing columns and choose direction
-# - If multiple columns exist: FOCUS rightmost pane, then position DOWN (stacks vertically)
-# - If single column: position RIGHT (creates new column)
+# Smart positioning logic:
+# - 1 column: Create new pane RIGHT (creates new rightmost column)
+# - Multiple columns: Navigate to TOP of rightmost column, create DOWN
 
-# Count non-focused panes to detect if we already created a second column
-PANE_COUNT=$(ps aux | grep "spawn-agent-pane.sh" | grep -v grep | wc -l)
+# Count columns by checking layout
+LAYOUT=$(zellij action dump-layout 2>&1)
+# Count panes with split_direction="vertical" in the active tab
+# Filter for the focused tab section only
+COLUMN_COUNT=$(echo "$LAYOUT" | awk '/focus=true hide_floating_panes=true/,/^    \}/' | grep -c 'split_direction="vertical"')
 
-if [ "$PANE_COUNT" -gt 0 ]; then
-    # At least one agent pane exists - focus rightmost, then go down
-    # Move focus to the right (to the agent panes column)
-    zellij action focus-next-pane
-    DIRECTION="down"
-else
-    # No agent panes yet - create first one to the right
+if [ "$COLUMN_COUNT" -eq 0 ]; then
+    # Single column layout - create new column to the right
     DIRECTION="right"
+else
+    # Multiple columns - navigate to rightmost column only (don't move up/down)
+    # Then create down - this will stack vertically in that column
+    # Move to rightmost column
+    for i in {1..10}; do
+        zellij action move-focus right 2>/dev/null || break
+    done
+
+    # Create pane down from current position in rightmost column
+    # Agent panes will stack vertically from wherever focus is
+    DIRECTION="down"
 fi
 
 # Launch with close-on-exit flag so it auto-closes when script finishes
