@@ -4,11 +4,18 @@
       "Bash(journalctl:*)",
       "Bash(systemctl:*)",
       "Bash(systemd-analyze:*)",
-      "Bash(sudo apt install:*)"
+      "Bash(sudo apt install:*)",
+      "WebFetch",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
   },
+  "statusLine": {
+    "type": "command",
+    "command": "/home/jreuben1/.claude/statusline.sh"
+  },
+  "alwaysThinkingEnabled": false,
   "mcpServers": {
     "filesystem": {
       "command": "npx",
@@ -20,26 +27,43 @@
     },
     "git": {
       "command": "uvx",
-      "args": ["mcp-server-git", "--repository", "/home/jreuben1"]
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "/home/jreuben1"
+      ]
     },
     "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "context7-mcp-server"]
+      "args": [
+        "-y",
+        "context7-mcp-server"
+      ]
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"]
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
     },
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
     }
   },
   "disableMcpServers": [
+    "git",
     "memory",
     "playwright",
     "chrome-devtools"

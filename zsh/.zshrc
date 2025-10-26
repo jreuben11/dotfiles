@@ -360,3 +360,4 @@ export PATH=$PATH:$(go env GOPATH)/bin
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# alias vlc='flatpak run org.videolan.VLC'  # Disabled - using native VLC for GPU acceleration
