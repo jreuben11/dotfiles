@@ -8,12 +8,27 @@ cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
 model=$(echo "$input" | jq -r '.model.display_name // "Claude"')
 output_style=$(echo "$input" | jq -r '.output_style.name // ""')
 
-# Extract context usage information
-context_used=$(echo "$input" | jq -r '.context.used // 0')
-context_limit=$(echo "$input" | jq -r '.context.limit // 0')
+# Extract context usage from transcript file
+transcript_path=$(echo "$input" | jq -r '.transcript_path // ""')
+context_limit=200000  # Default limit for Sonnet models
+
+if [ -n "$transcript_path" ] && [ -f "$transcript_path" ]; then
+    # Get the last line which contains latest token usage
+    last_line=$(tail -n 1 "$transcript_path" 2>/dev/null)
+
+    # Sum up all token types for total context used
+    cache_read=$(echo "$last_line" | jq -r '.message.usage.cache_read_input_tokens // 0' 2>/dev/null)
+    input_tokens=$(echo "$last_line" | jq -r '.message.usage.input_tokens // 0' 2>/dev/null)
+    cache_creation=$(echo "$last_line" | jq -r '.message.usage.cache_creation_input_tokens // 0' 2>/dev/null)
+
+    # Total context = cache_read + input + cache_creation
+    context_used=$((cache_read + input_tokens + cache_creation))
+else
+    context_used=0
+fi
 
 # Calculate context percentage
-if [ "$context_limit" -gt 0 ]; then
+if [ "$context_limit" -gt 0 ] && [ "$context_used" -gt 0 ]; then
     context_percent=$(echo "scale=0; ($context_used * 100) / $context_limit" | bc)
 else
     context_percent=0
