@@ -326,7 +326,14 @@ function ze () { zellij edit "$*";}
 function zef () { zellij edit --floating "$*";}
 
 # eza
-alias ll='eza --long --grid --classify --icons --no-user --time-style=long-iso'
+function ll() {
+  local count=$(eza -1 "$@" 2>/dev/null | wc -l)
+  if [[ $count -gt 35 ]]; then
+    eza --long --grid --classify --icons --no-user --time-style=long-iso "$@"
+  else
+    eza --long --classify --icons --no-user --time-style=long-iso "$@"
+  fi
+}
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
