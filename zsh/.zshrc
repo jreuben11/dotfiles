@@ -178,9 +178,10 @@ bindkey '^E' end-of-line
 
 
 
-# CUDA
-export PATH=/usr/local/cuda-12.3/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH
+# CUDA - uses system default via symlink (/usr/local/cuda -> cuda-13.1)
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 export CUDA_SAMPLES=/usr/local/cuda-samples/Samples
 
 
@@ -356,6 +357,7 @@ export UV_PYTHON="3.13"
 # uv python aliases
 alias python='uv run python'
 alias pip='uv pip'
+alias jlab='uv run --python ~/.venv/bin/python jupyter lab'
 
 export PATH=$PATH:$(go env GOPATH)/bin
 
@@ -368,3 +370,6 @@ export PATH=$PATH:$(go env GOPATH)/bin
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 # alias vlc='flatpak run org.videolan.VLC'  # Disabled - using native VLC for GPU acceleration
+
+# LLVM 21
+export PATH="/usr/lib/llvm-21/bin:$PATH"

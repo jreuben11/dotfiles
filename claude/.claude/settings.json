@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(journalctl:*)",
@@ -15,7 +18,10 @@
     "type": "command",
     "command": "/home/jreuben1/.claude/statusline.sh"
   },
-  "alwaysThinkingEnabled": false,
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
   "mcpServers": {
     "filesystem": {
       "command": "npx",

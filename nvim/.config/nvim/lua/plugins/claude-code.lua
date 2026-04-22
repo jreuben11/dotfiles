@@ -1,38 +1,17 @@
 return {
   "coder/claudecode.nvim",
-  config = function()
-    require("claudecode").setup({
-      -- Port for the WebSocket server (default: 7863)
-      port = 7863,
-      -- Auto-start the server when Neovim starts (default: false)
-      auto_start = true,
-      -- Show notifications when Claude Code connects/disconnects
-      notifications = true,
-      -- Automatically reload buffers when files are modified by Claude
-      auto_reload = true,
-    })
-  end,
+  dependencies = { "folke/snacks.nvim" },
+  config = true,
   keys = {
-    {
-      "<leader>cc",
-      function()
-        require("claudecode").toggle()
-      end,
-      desc = "Toggle Claude Code server",
-    },
-    {
-      "<leader>cs",
-      function()
-        require("claudecode").start()
-      end,
-      desc = "Start Claude Code server",
-    },
-    {
-      "<leader>cq",
-      function()
-        require("claudecode").stop()
-      end,
-      desc = "Stop Claude Code server",
-    },
+    { "<leader>C", "<cmd>ClaudeCode<cr>", desc = "Open Claude Code" },
+    { "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+    { "<leader>cf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+    { "<leader>cr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+    { "<leader>cs", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+    { "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+    { "<leader>cb", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+    -- Diff management
+    { "<leader>ca", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+    { "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
   },
 }

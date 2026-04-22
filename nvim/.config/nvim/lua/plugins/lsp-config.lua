@@ -26,7 +26,7 @@ return {
 					"html",
 					"htmx",
 					"jsonls",
-					"julials",
+					-- "julials",  -- Removed: causing startup errors
 					"ts_ls",
 					"jinja_lsp",
 					"jqls",
