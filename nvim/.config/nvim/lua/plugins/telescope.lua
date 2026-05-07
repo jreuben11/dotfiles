@@ -9,6 +9,17 @@ return {
             vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
             vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
             vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+            require('telescope').setup {
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<Esc>"] = require('telescope.actions').close,
+                            ["<C-j>"] = require('telescope.actions').move_selection_next,
+                            ["<C-k>"] = require('telescope.actions').move_selection_previous,
+                        },
+                    },
+                },
+            }
         end
     },{
       "nvim-telescope/telescope-ui-select.nvim",

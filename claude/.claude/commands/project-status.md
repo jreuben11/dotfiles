@@ -1,7 +1,7 @@
 ---
 description: Show development status for a multi-worktree Cargo project, then merge and close tabs for completed worktrees
 argument-hint: ""
-allowed-tools: Bash(git *) Bash(cargo check *) Bash(cargo nextest *) Bash(zellij action *) Bash(gh pr *) Bash(gh pr merge *) Bash(sleep *) Read Write
+allowed-tools: Bash(git *) Bash(cargo check *) Bash(cargo nextest *) Bash(zellij action *) Bash(gh pr *) Bash(gh pr merge *) Bash(sleep *) Bash(tail *) Bash(test *) Bash(wc *) Bash(jq *) Read Write
 ---
 
 Show development status driven by the project plan checklist, then merge and close tabs for completed worktrees.
@@ -87,7 +87,57 @@ If all phases are complete, print:
   ✓ All plan items complete — ready to tag v0.1.0
 ```
 
-**6. Workspace compile check** (main branch only):
+**6. Rolling agent events** (from `/tmp/triad-agent-events.jsonl`)
+
+Check whether the event log exists:
+```bash
+test -f /tmp/triad-agent-events.jsonl
+```
+
+If exit 0 (file exists), get the line count:
+```bash
+wc -l /tmp/triad-agent-events.jsonl
+```
+
+Then read the last 30 lines with the Read tool:
+```
+Read /tmp/triad-agent-events.jsonl  (offset=max(0, total_lines-30), limit=30)
+```
+
+Parse each line as JSON in memory. For each event, extract:
+- `ts` — ISO-8601 timestamp (show only HH:MM:SS portion)
+- `agent` — worktree/agent name
+- `phase` — integer phase number
+- `event` — event type string
+- `detail` — free-form string (may be null/absent)
+- `coverage_pct` — optional float
+
+Group events by `agent`. For each agent show the most recent event last.
+
+Print:
+
+```
+AGENT EVENTS  (last 30 from /tmp/triad-agent-events.jsonl)
+  HH:MM:SS  <agent padded to 18>  Phase N  <event>  <detail>  [<coverage_pct>%]
+  HH:MM:SS  <agent padded to 18>  Phase N  <event>  <detail>
+  ...
+```
+
+Color-code event types in the printed output:
+- `tests_passing`, `build_ok`, `gate_passed`, `pr_merged`, `agent_done` → prefix with `✓`
+- `tests_failed`, `build_failed`, `gate_failed` → prefix with `✗`
+- `phase_started`, `pr_opened`, `coverage_ok`, `coverage_failed` → prefix with `·`
+- `step_done` → prefix with `  ·` (two-space indent to visually subordinate under milestones)
+
+If a `step_done` event has a `progress` field, append it in brackets: `[2/4 files]`.
+If it has `coverage_pct`, append `(NN.N%)` after the detail.
+
+If fewer than 1 event exists or file is absent, print:
+```
+AGENT EVENTS  (no events yet — agents publish via: echo '{"ts":"...","agent":"<name>","phase":N,"event":"phase_started","detail":""}' >> /tmp/triad-agent-events.jsonl)
+```
+
+**7. Workspace compile check** (main branch only):
 
 ```bash
 cargo check --workspace --manifest-path <REPO>/Cargo.toml
@@ -95,7 +145,7 @@ cargo check --workspace --manifest-path <REPO>/Cargo.toml
 
 Exit 0 → `  ✓ workspace compiles`. Non-zero → up to 5 `error` lines prefixed `✗`.
 
-**7. Per-worktree test results** (skip `not-started` and `merged`)
+**8. Per-worktree test results** (skip `not-started` and `merged`)
 
 Get the current main SHA (one call):
 ```bash
@@ -125,13 +175,13 @@ Interpret:
 
 Run **sequentially**. Collect `PASS` branches into `PASSING_BRANCHES`.
 
-**8. Footer**
+**9. Footer**
 
 ```
 ════════════════════════════════════════════════════
 ```
 
-**9. Merge and close completed worktrees**
+**10. Merge and close completed worktrees**
 
 Only attempt merge if the worktree is **both** `plan-complete` **and** in `PASSING_BRANCHES`.
 
@@ -224,9 +274,9 @@ f. Close the agent tab — only if the tab name appears in the Agent Launch Conf
 
 g. (skip label — do nothing further for this branch)
 
-**10. Auto-launch next unblocked batch**
+**11. Auto-launch next unblocked batch**
 
-Only run if at least one successful merge happened in step 9.
+Only run if at least one successful merge happened in step 10.
 
 Get the current merged-branch list (one call):
 ```bash
@@ -275,6 +325,6 @@ After opening all tabs for batch N:
 
 If no batch is unblocked: print `  → No new batch to launch yet — dependencies still in progress.`
 
-**11. Summary**
+**12. Summary**
 
 One sentence: what merged, what launched, what's still running.

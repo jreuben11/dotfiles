@@ -2,8 +2,8 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- Terminal mode key mappings for better terminal experience with Zellij
--- Use Alt instead of Ctrl for window navigation to avoid conflicts with terminal apps
+-- Normal/visual mode C-h/j/k/l handled by zellij-nav.nvim (navigates nvim splits AND zellij panes)
+-- Terminal mode: Alt keys escape terminal and move to nvim window (fallback when not using zellij-nav)
 vim.keymap.set("t", "<A-h>", "<C-\\><C-n><C-w>h", { desc = "Go to left window" })
 vim.keymap.set("t", "<A-j>", "<C-\\><C-n><C-w>j", { desc = "Go to down window" })
 vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>k", { desc = "Go to up window" })

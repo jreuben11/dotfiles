@@ -2,6 +2,21 @@
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "hooks": {
+    "Notification": [{
+      "matcher": "",
+      "hooks": [
+        {"type": "command", "command": "zellij pipe --name \"zellij-attention::waiting::$ZELLIJ_PANE_ID\""},
+        {"type": "command", "command": "notify-send 'Claude Code' 'Waiting for input' -i dialog-information"}
+      ]
+    }],
+    "Stop": [{
+      "hooks": [
+        {"type": "command", "command": "zellij pipe --name \"zellij-attention::completed::$ZELLIJ_PANE_ID\""},
+        {"type": "command", "command": "notify-send 'Claude Code' 'Task complete' -i dialog-information"}
+      ]
+    }]
+  },
   "permissions": {
     "allow": [
       "Bash(journalctl:*)",
@@ -20,8 +35,41 @@
   },
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "session-report@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "claude-api@anthropic-agent-skills": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "huggingface-skills@claude-plugins-official": false
   },
+  "extraKnownMarketplaces": {
+    "cc-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "ananddtyagi/cc-marketplace"
+      }
+    },
+    "claude-night-market": {
+      "source": {
+        "source": "github",
+        "repo": "athola/claude-night-market"
+      }
+    },
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    }
+  },
+  "advisorModel": "opus",
+  "skipDangerousModePermissionPrompt": true,
+  "editorMode": "vim",
   "mcpServers": {
     "filesystem": {
       "command": "npx",
@@ -34,9 +82,7 @@
     "git": {
       "command": "uvx",
       "args": [
-        "mcp-server-git",
-        "--repository",
-        "/home/jreuben1"
+        "mcp-server-git"
       ]
     },
     "memory": {
@@ -50,7 +96,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "context7-mcp-server"
+        "@upstash/context7-mcp"
       ]
     },
     "playwright": {

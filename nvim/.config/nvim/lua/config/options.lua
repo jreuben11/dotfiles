@@ -2,6 +2,9 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Allow project-local .nvim.lua configs (e.g. cli-dojo keylogger)
+vim.o.exrc = true
+
 -- Terminal configuration for better Zellij interaction
 vim.opt.shell = vim.fn.executable("zsh") == 1 and "zsh" or "bash"
 vim.opt.scrollback = 100000

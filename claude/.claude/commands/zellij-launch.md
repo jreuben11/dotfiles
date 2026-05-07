@@ -45,11 +45,32 @@ Interpret `$ARGUMENTS` as one of:
    EOF
    ```
    Skip this step if the worktree directory does not exist yet.
-6. After all agent tabs, open one final status tab named `status`:
+6. After all agent tabs, write a status wrapper script and open the status tab.
+   The wrapper runs `/project-status` immediately as the initial prompt so the first
+   status check starts without any manual action:
+   ```bash
+   cat > /tmp/run-status.sh << 'STATUSEOF'
+   #!/bin/bash
+   cd <repo>
+   exec claude --dangerously-skip-permissions "$(cat /home/jreuben1/.dotfiles/claude/.claude/commands/project-status.md)"
+   STATUSEOF
+   chmod +x /tmp/run-status.sh
    ```
-   cd <repo> && claude
+   ```bash
+   zellij action new-tab --name "status" -- /tmp/run-status.sh
    ```
-   After opening it, tell the user: run `/project-status` in the status tab to check progress.
+   Capture the returned tab ID as `STATUS_TAB_ID`.
+
+6b. Auto-start `/loop` in the status tab. Sleep 10 s to let claude initialise, then
+    send `/loop` — it is buffered while project-status runs and fires immediately after
+    the first run completes, establishing continuous polling:
+   ```bash
+   sleep 10
+   zellij action go-to-tab-by-id <STATUS_TAB_ID>
+   zellij action write-chars $'/loop\n'
+   ```
+   After sending, navigate back to the first agent tab so the user lands there.
+
 7. After opening all tabs, list which tabs have `/loop? = yes` and tell the user:
    > Switch to the `<tab-name>` tab and run `/loop` to start iterative TDD.
 
@@ -70,10 +91,10 @@ zellij action new-tab --name "<name>" -- /tmp/run-<name>.sh
 
 This creates the tab with the command already running. No focus timing needed.
 
-For the final `status` tab (no wrapper script needed):
+For the final `status` tab, use the wrapper written in step 6:
 
 ```bash
-zellij action new-tab --name "status" --cwd "<repo>" -- claude
+zellij action new-tab --name "status" -- /tmp/run-status.sh
 ```
 
 Run each call with the Bash tool before proceeding to the next tab. Do NOT batch tab-open calls.
@@ -82,5 +103,6 @@ Run each call with the Bash tool before proceeding to the next tab. Do NOT batch
 
 ```
 Opened <N> tab(s): <name1>, <name2>, ...
+Status tab: auto-running /project-status, /loop queued — continuous polling active.
 [If any /loop tabs]: Run /loop in: <tab-name>, ...
 ```

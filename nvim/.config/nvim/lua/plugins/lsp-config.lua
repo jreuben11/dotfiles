@@ -69,9 +69,21 @@ return {
 			-- 		},
 			-- 	},
 			-- })
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+			local map = function(keys, fn, desc)
+				vim.keymap.set("n", keys, fn, { desc = "LSP: " .. desc })
+			end
+			map("K",          vim.lsp.buf.hover,            "Hover docs")
+			map("gd",         vim.lsp.buf.definition,       "Go to definition")
+			map("gD",         vim.lsp.buf.declaration,      "Go to declaration")
+			map("gr",         vim.lsp.buf.references,       "Go to references")
+			map("gI",         vim.lsp.buf.implementation,   "Go to implementation")
+			map("gy",         vim.lsp.buf.type_definition,  "Go to type definition")
+			map("<leader>cr", vim.lsp.buf.rename,           "Rename symbol")
+			map("<leader>cf", function() vim.lsp.buf.format({ async = true }) end, "Format file")
+			map("[d",         vim.diagnostic.goto_prev,     "Prev diagnostic")
+			map("]d",         vim.diagnostic.goto_next,     "Next diagnostic")
+			map("<leader>cd", vim.diagnostic.open_float,    "Show diagnostic")
+			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
 		end,
 	},
 }
