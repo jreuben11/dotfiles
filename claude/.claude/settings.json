@@ -6,14 +6,14 @@
     "Notification": [{
       "matcher": "",
       "hooks": [
-        {"type": "command", "command": "zellij pipe --name \"zellij-attention::waiting::$ZELLIJ_PANE_ID\""},
-        {"type": "command", "command": "notify-send 'Claude Code' 'Waiting for input' -i dialog-information"}
+        {"type": "command", "command": "[ -n \"$ZELLIJ_PANE_ID\" ] && zellij pipe --name \"zellij-attention::waiting::$ZELLIJ_PANE_ID\" || true"},
+        {"type": "command", "command": "notify-send \"Claude Code: ${ZELLIJ_SESSION_NAME:-$(basename $PWD)}\" 'Waiting for input' -i dialog-information"}
       ]
     }],
     "Stop": [{
       "hooks": [
-        {"type": "command", "command": "zellij pipe --name \"zellij-attention::completed::$ZELLIJ_PANE_ID\""},
-        {"type": "command", "command": "notify-send 'Claude Code' 'Task complete' -i dialog-information"}
+        {"type": "command", "command": "[ -n \"$ZELLIJ_PANE_ID\" ] && zellij pipe --name \"zellij-attention::completed::$ZELLIJ_PANE_ID\" || true"},
+        {"type": "command", "command": "notify-send \"Claude Code: ${ZELLIJ_SESSION_NAME:-$(basename $PWD)}\" 'Task complete' -i dialog-information"}
       ]
     }]
   },
@@ -41,6 +41,8 @@
     "commit-commands@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "claude-api@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": false,
+    "example-skills@anthropic-agent-skills": false,
     "typescript-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
@@ -112,6 +114,13 @@
         "-y",
         "chrome-devtools-mcp@latest"
       ]
+    },
+    "hyprmcp": {
+      "command": "/home/jreuben1/.local/share/hyprmcp/run-hyprmcp.sh",
+      "args": [],
+      "env": {
+        "PYTHONPATH": "/home/jreuben1/.local/share/hyprmcp"
+      }
     }
   },
   "disableMcpServers": [

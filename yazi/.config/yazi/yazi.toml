@@ -1,2 +1,34 @@
 [mgr]
-linemode    = "size"
+linemode       = "mtime"
+sort_by        = "mtime"
+sort_reverse   = true
+sort_dir_first = true
+scrolloff      = 5
+
+[preview]
+image_filter = "lanczos3"
+image_quality = 90
+
+[plugin]
+prepend_preloaders = [
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/vnd.oasis.opendocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+]
+prepend_previewers = [
+  { mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}", run = "ouch" },
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/vnd.oasis.opendocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+  { mime = "application/x-notebook", run = "nbpreview" },
+  { url = "*.glb",   run = "mesh-preview" },
+  { url = "*.gltf",  run = "mesh-preview" },
+  { url = "*.obj",   run = "mesh-preview" },
+  { url = "*.stl",   run = "mesh-preview" },
+  { url = "*.ply",   run = "mesh-preview" },
+  { url = "*.fbx",   run = "mesh-preview" },
+]
