@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">Option Explicit
+
+Const COL_NONE     As Long = -1
+Const COL_YELLOW   As Long = &amp;HFFFF00
+Const COL_LT_GREEN As Long = &amp;HB6D7A8
+Const COL_LT_BRICK As Long = &amp;HEA9999
+
+Function GetSel() As Object
+    Dim oSel As Object
+    oSel = ThisComponent.getCurrentSelection()
+    If IsNull(oSel) Or IsEmpty(oSel) Then Exit Function
+    If oSel.supportsService(&quot;com.sun.star.text.TextRanges&quot;) Then
+        If oSel.getCount() = 0 Then Exit Function
+        oSel = oSel.getByIndex(0)
+    End If
+    If Not oSel.supportsService(&quot;com.sun.star.text.TextRange&quot;) Then Exit Function
+    If oSel.getString() = &quot;&quot; Then Exit Function
+    GetSel = oSel
+End Function
+
+Sub ToggleHighlight()
+    Dim oSel As Object
+    oSel = GetSel()
+    If IsNull(oSel) Or IsEmpty(oSel) Then Exit Sub
+    If oSel.CharHighlight = COL_NONE Then
+        oSel.CharHighlight = COL_YELLOW
+    Else
+        oSel.CharHighlight = COL_NONE
+    End If
+End Sub
+
+Sub CycleHighlightColor()
+    Dim oSel As Object
+    oSel = GetSel()
+    If IsNull(oSel) Or IsEmpty(oSel) Then Exit Sub
+    Select Case oSel.CharHighlight
+        Case COL_YELLOW   : oSel.CharHighlight = COL_LT_GREEN
+        Case COL_LT_GREEN : oSel.CharHighlight = COL_LT_BRICK
+        Case Else         : oSel.CharHighlight = COL_YELLOW
+    End Select
+End Sub
+</script:module>
