@@ -1,111 +1,26 @@
 {
-  "window.zoomLevel": 2,
-  "workbench.iconTheme": "vscode-icons",
-  "files.autoSave": "afterDelay",
-  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"],
-  "julia.symbolCacheDownload": true,
-  "git.autofetch": true,
-  "julia.executablePath": "/snap/julia/current/bin/julia",
-  "julia.enableTelemetry": false,
-  "redhat.telemetry.enabled": false,
-  "vsicons.dontShowNewVersionMessage": true,
-  "C_Cpp.intelliSenseEngine": "disabled",
-  "clangd.path": "/home/jreuben1/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/bin/clangd",
-  "editor.unicodeHighlight.nonBasicASCII": false,
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "vs-kubernetes": {
-    "vscode-kubernetes.minikube-path-linux": "/home/jreuben1/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube",
-    "vscode-kubernetes.kubectl-path-linux": "/home/jreuben1/.local/state/vs-kubernetes/tools/kubectl/kubectl",
-    "vscode-kubernetes.helm-path-linux": "/home/jreuben1/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm"
-  },
-  "editor.linkedEditing": true,
-  "rust-analyzer.cargo.buildScripts.overrideCommand": null,
-  "[rust]": {
-    "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "editor.formatOnSave": true
-  },
-  "vim.enableNeovim": true,
-  "vim.useSystemClipboard": true,
-  "vim.visualModeKeyBindings": [
-    {
-      "before": ["J"],
-      "commands": ["editor.action.moveLinesDownAction"]
-    }, // moveLineDown
-    {
-      "before": ["K"],
-      "commands": ["editor.action.moveLinesUpAction"]
-    } // moveLineUp
-  ],
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "python.venvFolders": ["/home/jreuben1/.cache/pypoetry/virtualenvs"],
-  "python.defaultInterpreterPath": "${env:VIRTUAL_ENV}",
-  "remote.SSH.remotePlatform": {
-    "*.gitpod.io": "linux"
-  },
-  "remote.SSH.defaultExtensions": ["gitpod.gitpod-remote-ssh"],
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
-  "vscode-neovim.neovimExecutablePaths.linux": "/snap/bin/nvim",
-  "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.lua",
-  "CodeGPT.apiKey": "Ollama",
-  "CodeGPT.Autocomplete.enabled": true,
-  "database-client.autoSync": true,
-  "geminicodeassist.project": "",
-  "editor.wordWrap": "on",
-  "editor.formatOnSave": true,
-  "git.blame.statusBarItem.enabled": true,
-  "diffEditor.renderSideBySide": false,
-  "ShortcutMenuBar.beautify": false,
-  "ShortcutMenuBar.commentLine": true,
-  "ShortcutMenuBar.findReplace": true,
-  "ShortcutMenuBar.indentLines": true,
-  "ShortcutMenuBar.goToDefinition": true,
-  "ShortcutMenuBar.openFilesList": false,
-  "ShortcutMenuBar.openSettings": true,
-  "ShortcutMenuBar.outdentLines": true,
-  "ShortcutMenuBar.showCommands": true,
-  "github.copilot.chat.codesearch.enabled": true,
-  "github.copilot.nextEditSuggestions.enabled": true,
-  "github.copilot.chat.agent.thinkingTool": true,
-  "github.copilot.chat.completionContext.typescript.mode": "on",
-  "github.copilot.chat.editor.temporalContext.enabled": true,
-  "github.copilot.chat.edits.temporalContext.enabled": true,
-  "github.copilot.chat.generateTests.codeLens": true,
-  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
-  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
-  "github.copilot.chat.languageContext.typescript.enabled": true,
-  "workbench.editor.customLabels.patterns": {
-    "\"**/src/**/index.html\"": "\"${dirname}/${filename}\""
-  },
+  "workbench.colorCustomizations": null,
   "chat.instructionsFilesLocations": {
     ".github/instructions": true,
-    "/tmp/postman-http-request-post-response.instructions.md": true,
-    "/tmp/postman-http-request-pre-request.instructions.md": true,
+    ".claude/rules": true,
+    "~/.copilot/instructions": true,
+    "~/.claude/rules": true,
     "/tmp/postman-collections-post-response.instructions.md": true,
     "/tmp/postman-collections-pre-request.instructions.md": true,
     "/tmp/postman-folder-post-response.instructions.md": true,
-    "/tmp/postman-folder-pre-request.instructions.md": true
+    "/tmp/postman-folder-pre-request.instructions.md": true,
+    "/tmp/postman-http-request-post-response.instructions.md": true,
+    "/tmp/postman-http-request-pre-request.instructions.md": true
   },
-  "sonarlint.rules": {
-    "typescript:S6819": {
-      "level": "off"
-    },
-    "typescript:S6851": {
-      "level": "off"
-    }
+  "yaml.schemas": {
+    "/home/jreuben1/.vscode/extensions/nvidia.nsight-copilot-2026.1.14-linux-x64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
   },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "remote.SSH.remotePlatform": {
+    "*.gitpod.io": "linux"
   },
-  "vscode-ollama.baseUrl": "http://127.0.0.1:11434",
-  "vscode-ollama.model": "deepseek-r1:latest",
-  "vscode-ollama.maxTokens": 4096,
-  "vscode-ollama.keepAlive": "5 minutes",
-  "vscode-ollama.performanceMode": "Base (Default)",
-  "vscode-ollama.systemPrompt": "Given the following conversation, relevant context, and a follow up question, reply with an answer to the current question the user is asking. Return only your response to the question given the above information following the users instructions as needed."
+  "git.openRepositoryInParentFolders": "never",
+  "workbench.colorTheme": "Light 2026",
+  "files.autoSave": "afterDelay"
 }

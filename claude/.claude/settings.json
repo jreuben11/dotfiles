@@ -1,20 +1,87 @@
 {
+  "skillListingBudgetFraction": 0.02,
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
     "allow": [
-      "Bash(journalctl:*)",
-      "Bash(systemctl:*)",
-      "Bash(systemd-analyze:*)",
-      "Bash(sudo apt install:*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git remote*)",
+      "Bash(git submodule*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(git clone*)",
+      "Bash(git checkout*)",
+      "Bash(git switch*)",
+      "Bash(git stash*)",
+      "Bash(gh *)",
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(find *)",
+      "Bash(ls *)",
+      "Bash(ll *)",
+      "Bash(eza *)",
+      "Bash(tree *)",
+      "Bash(cat *)",
+      "Bash(bat *)",
+      "Bash(file *)",
+      "Bash(stat *)",
+      "Bash(which *)",
+      "Bash(man *)",
+      "Bash(uname *)",
+      "Bash(id *)",
+      "Bash(ps *)",
+      "Bash(ip *)",
+      "Bash(dmesg *)",
+      "Bash(lsmod*)",
+      "Bash(dpkg*)",
+      "Bash(make *)",
+      "Bash(clang *)",
+      "Bash(gcc *)",
+      "Bash(bpftool *)",
+      "Bash(sudo bpftool *)",
+      "Bash(llvm-strip *)",
+      "Bash(llvm-objdump *)",
+      "Bash(readelf *)",
+      "Bash(nm *)",
+      "Bash(cargo build*)",
+      "Bash(cargo test*)",
+      "Bash(cargo run*)",
+      "Bash(cargo check*)",
+      "Bash(cargo add*)",
+      "Bash(cargo install*)",
+      "Bash(rustup *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(uv *)",
+      "Bash(pip list*)",
+      "Bash(pip show*)",
+      "Bash(npm install*)",
+      "Bash(npm list*)",
+      "Bash(pnpm install*)",
+      "Bash(pnpm list*)",
+      "Bash(kubectl get*)",
+      "Bash(kubectl describe*)",
+      "Bash(docker image*)",
+      "Bash(docker ps*)",
+      "Bash(docker pull*)",
+      "Bash(zellij *)",
+      "Bash(journalctl*)",
+      "Bash(systemctl*)",
+      "Bash(systemd-analyze*)",
+      "Bash(sudo apt install*)",
+      "Bash(curl *)",
       "WebFetch",
       "WebSearch"
     ],
-    "deny": [],
-    "ask": [],
     "defaultMode": "acceptEdits"
   },
+  "model": "claude-sonnet-4-6",
   "hooks": {
     "Notification": [
       {
@@ -29,6 +96,16 @@
             "command": "notify-send \"Claude Code: ${ZELLIJ_SESSION_NAME:-$(basename $PWD)}\" 'Waiting for input' -i dialog-information"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "Stop": [
@@ -41,6 +118,112 @@
           {
             "type": "command",
             "command": "notify-send \"Claude Code: ${ZELLIJ_SESSION_NAME:-$(basename $PWD)}\" 'Task complete' -i dialog-information"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jreuben1/.config/zellij/plugins/zellaude-hook.sh",
+            "timeout": 5,
+            "async": true
           }
         ]
       }
@@ -84,10 +267,24 @@
       }
     }
   },
+  "ultracode": true,
+  "autoCompactWindow": 180000,
   "advisorModel": "opus",
-  "model": "claude-sonnet-4-6",
+  "autoUpdatesChannel": "latest",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
   "editorMode": "vim",
+  "autoCompactEnabled": true,
+  "autoScrollEnabled": true,
+  "fileCheckpointingEnabled": true,
+  "showTurnDuration": true,
+  "todoFeatureEnabled": true,
+  "teammateMode": "in-process",
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
   "mcpServers": {
     "filesystem": {
       "command": "npx",
@@ -104,13 +301,6 @@
         "@upstash/context7-mcp"
       ]
     },
-    "chrome-devtools": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ]
-    },
     "hyprmcp": {
       "command": "/home/jreuben1/.local/share/hyprmcp/run-hyprmcp.sh",
       "args": [],
@@ -118,21 +308,5 @@
         "PYTHONPATH": "/home/jreuben1/.local/share/hyprmcp"
       }
     }
-  },
-  "disableMcpServers": [
-    "chrome-devtools"
-  ],
-  "skillListingBudgetFraction": 0.02,
-  "autoUpdatesChannel": "latest",
-  "tui": "fullscreen",
-  "theme": "dark",
-  "autoCompactEnabled": true,
-  "autoScrollEnabled": true,
-  "fileCheckpointingEnabled": true,
-  "showTurnDuration": true,
-  "todoFeatureEnabled": true,
-  "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "teammateMode": true
+  }
 }

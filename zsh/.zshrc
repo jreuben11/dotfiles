@@ -1,7 +1,10 @@
 # set vi mode
-set -o vi # bash
+# set -o vi # bash-style vi mode (redundant in zsh — bindkey -v below handles it)
 bindkey -v
 export KEYTIMEOUT=1
+
+# Deduplicate PATH entries automatically
+typeset -U path PATH
 
 # History optimization
 HISTSIZE=50000
@@ -11,8 +14,7 @@ setopt HIST_IGNORE_DUPS          # Don't record duplicates
 setopt HIST_IGNORE_ALL_DUPS      # Delete old duplicate entries
 setopt HIST_REDUCE_BLANKS        # Remove extra blanks
 setopt HIST_VERIFY               # Show command before executing from history
-setopt SHARE_HISTORY             # Share history between sessions
-setopt APPEND_HISTORY            # Append to history file
+setopt SHARE_HISTORY             # Share history between sessions (implies APPEND_HISTORY)
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -93,7 +95,7 @@ plugins=(
   colored-man-pages
   docker
   eza
-  fzf
+#   fzf  # handled by source <(fzf --zsh)
   gcloud
   gh
   git
@@ -109,7 +111,7 @@ plugins=(
   rust
   systemd
   tldr
-  tmux
+#  tmux
   ubuntu
   web-search
   you-should-use
@@ -135,9 +137,9 @@ setopt PUSHD_IGNORE_DUPS         # Don't push duplicates
 setopt PUSHD_SILENT              # Don't print dir stack after pushd/popd
 alias d='dirs -v'                # Show directory stack
 
-# Correction and globbing
-setopt CORRECT                   # Spelling correction for commands
+# Globbing
 setopt EXTENDED_GLOB             # Extended globbing patterns
+setopt NOCORRECTALL              # Only correct command names, not arguments
 
 # Faster key bindings (vi mode enhancements)
 bindkey '^P' history-search-backward
@@ -153,13 +155,6 @@ bindkey '^E' end-of-line
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fiecho '
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -178,7 +173,7 @@ bindkey '^E' end-of-line
 
 
 
-# CUDA - uses system default via symlink (/usr/local/cuda -> cuda-13.1)
+# CUDA - uses system default via symlink (/usr/local/cuda -> cuda-13.2)
 export CUDA_HOME=/usr/local/cuda
 export PATH=$CUDA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
@@ -237,7 +232,7 @@ extract() {
 # ALIASes
 alias weather="curl wttr\.in"
 alias bat="batcat"
-alias inv='nvim $(fzf -m --preview="bat --color=always {}")' # open nzim with fzf selections
+alias inv='nvim $(fzf -m --preview="bat --color=always {}")' # open nvim with fzf selections
 
 # HSTR configuration - add this to ~/.zshrc
 alias hh=hstr                    # hh to be alias for hstr
@@ -247,8 +242,11 @@ export HSTR_CONFIG=hicolor       # get more colors
 
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy-load nvm — avoids ~200ms startup cost; initialises on first use of nvm/node/npm/npx
+nvm() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"; nvm "$@"; }
+node() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; node "$@"; }
+npm()  { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; npm "$@"; }
+npx()  { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; npx "$@"; }
 
 # Android
 # export ANDROID_HOME="/usr/lib/android-sdk/"
@@ -263,17 +261,18 @@ export PATH="${PATH}:${ANDROID_HOME}platform-tools/"
 # Created by `pipx` on 2024-06-28 09:17:54
 export PATH="$PATH:/home/jreuben1/.local/bin"
 
-EDITOR="nvim"
+export EDITOR="nvim"
 
 # starship
 eval "$(starship init zsh)"
 # zoxide
 export _ZO_DATA_DIR="$HOME/.local/share/zoxide"
 eval "$(zoxide init zsh)"
-# fzf key bindings not available before v 0.48
-# source <(fzf --zsh)
+source <(fzf --zsh)
 
 # yazi
+alias ya='yazi.ya'
+export YAZI_FILE_ONE="$HOME/.local/bin/yazi-file-mime"
 function yy() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     yazi "$@" --cwd-file="$tmp"
@@ -304,11 +303,6 @@ function nvims() {
   fi
   NVIM_APPNAME=$config nvim $@
 }
-# bindkey -s ^a "nvims\n"
-
-# kubeswitcher
-# source <(switcher init zsh)
-# source <(switch completion zsh)
 
 # Kubectl krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -319,8 +313,10 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # wezterm
 alias wezterm='flatpak run org.wezfurlong.wezterm'
 
-# zellij
-eval "$(zellij setup --generate-auto-start zsh)"
+# zellij — auto-start in all terminals except Warp (which manages its own sessions)
+if [[ -z "$ZELLIJ" && "$TERM_PROGRAM" != "WarpTerminal" && -z "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+  eval "$(zellij setup --generate-auto-start zsh)"
+fi
 function zr () { zellij run --name "$*" -- zsh -ic "$*";}
 function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
 function ze () { zellij edit "$*";}
@@ -347,9 +343,15 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-# uv shell completions
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
+# uv shell completions (cached — regenerates when uv binary is updated)
+_uv_cache="$HOME/.cache/zsh/uv-completion.zsh"
+if [[ ! -f "$_uv_cache" || "$(command -v uv)" -nt "$_uv_cache" ]]; then
+    mkdir -p "${_uv_cache:h}"
+    uv generate-shell-completion zsh >| "$_uv_cache"
+    uvx --generate-shell-completion zsh >> "$_uv_cache"
+fi
+source "$_uv_cache"
+unset _uv_cache
 
 # uv python configuration
 export UV_PYTHON="3.13"
@@ -359,9 +361,10 @@ alias python='uv run python'
 alias pip='uv pip'
 alias jlab='uv run --python ~/.venv/bin/python jupyter lab'
 
-export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$HOME/go/bin
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# ~/.fzf.zsh is empty; fzf key bindings handled by the fzf omz plugin above
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # bun completions
 [ -s "/home/jreuben1/.bun/_bun" ] && source "/home/jreuben1/.bun/_bun"
@@ -371,5 +374,35 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 # alias vlc='flatpak run org.videolan.VLC'  # Disabled - using native VLC for GPU acceleration
 
-# LLVM 21
-export PATH="/usr/lib/llvm-21/bin:$PATH"
+# LLVM 22
+export PATH="/usr/lib/llvm-22/bin:$PATH"
+
+# https://github.com/stanislc/zellij-claude-teams
+if [[ -n "$ZELLIJ" ]]; then
+    _shim="${XDG_DATA_HOME:-$HOME/.local/share}/zellij-tmux-shim/activate.sh"
+    [[ -f "$_shim" ]] && source "$_shim"
+    unset _shim
+fi
+claude-teams() {
+    local dir="${1:-$PWD}"
+    dir="$(realpath "$dir")"
+    if [[ -n "$ZELLIJ" ]]; then
+        zellij action new-tab --cwd "$dir" --layout claude-teams --name "claude:$(basename "$dir")"
+    else
+        cd "$dir" && zellij --layout claude-teams
+    fi
+}
+
+# list tools
+alias lsr="cargo install --list"
+alias lsp="uv tool list"
+alias lsj="pnpm list -g"
+alias lsg="ls $HOME/go/bin"
+
+[ -f ~/.secrets ] && source ~/.secrets
+export PATH="$HOME/bin:$PATH"
+
+# kubernetes
+export KUBECONFIG=~/.kube/config:~/.kube/config-k3s:~/.kube/config-kubeadm
+alias kctx='kubectl ctx'
+alias kns='kubectl ns'
